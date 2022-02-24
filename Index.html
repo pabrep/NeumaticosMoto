@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+
+  <!-- Enable responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://unpkg.com/survey-jquery@1.8.21/modern.css" type="text/css" rel="stylesheet" />
+
+  <!-- Style -->
+  <?!= include('Stylesheet') ?>
+
+  <!-- Imports -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://use.fontawesome.com/bd3c667206.js"></script>
+
+  <title>Opiniones neumáticos moto</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+  <div class="container">
+    <h1 class="text-center mb-3 pink-text">🏍️ Neumáticos 🏍️</h1>
+
+    <div class="row grey-text">
+      <div class="col-md-9 border-right text-justify">
+        <p class="lead">En esta aplicación podrás encontrar las opiniones sobre el funcionamiento de distintos neumáticos
+          que han probado los moteros y moteras. Las opiniones aportadas deben ser objetivas.</p>
+        <p>
+          <b>Este proyecto solo pretende exponer las opiniones de los usuarios y en ningún caso debe considerarse como un análisis profesional.</b>
+        </p>
+        <p>Cualquiera puede colaborar aportando su opinión, para ello deberá rellenar el siguiente
+          formulario:
+          <a href="https://forms.gle/FkZEgb9DpzC2KWvX9">Formulario</a>. Puedes rellenarlo tantas veces como ruedas hayas
+          probado ✌️.
+        </p>
+      </div>
+      <div class="col-md-3 my-auto text-center p-4">
+        <img src=" https://drive.google.com/uc?export=view&id=1IkZvPloqRZOHcBH5kForYYjdzh0rlJh8" alt="Mt logo" class="img-fluid w-50">
+        <p class="font-weight-bold">Calaboradores especiales</p>
+      </div>
+    </div>
+
+
+    <div class="row shadow-lg p-3 mt-3 mb-3 bg-white rounded text-center conten-div">
+      <div class="w-100">
+        <span class="text-white">Elige el neumático que quieras consultar:&nbsp;</span>
+        <select id="selectModels" class="form-select w-50 text-center" aria-label="Default select example">
+          </select>
+      </div>
+    </div>
+
+    <div id="intitialStatsDiv" class="row shadow-lg p-3 mt-3 mb-3 bg-white rounded text-center d-none conten-div">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-md-6 tyreTypeDiv">
+            <span class="font-weight-bold white-text"><i class="fa fa-motorcycle" aria-hidden="true"></i>&nbsp;Tipo de neumático:&nbsp;</span>
+            <span id="tyreType">Cargando ... </span>
+          </div>
+          <div class="col-md-6">
+            <span class="font-weight-bold white-text"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;Veces que se ha analizado:&nbsp;</span>
+            <span id="totalRatings">Cargando ...</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-4">
+        <div class="col-md-12 text-center">
+          <span class="font-weight-bold white-text"><i class="fa fa-info" aria-hidden="true"></i>&nbsp;Uso recomendado del neumático:&nbsp;</span>
+          <p id="tyreTypeInfo" class="text-justify">Cargando ... </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="chartsDiv" class="row shadow-lg p-3 mt-3 bg-white rounded d-none conten-div">
+      <div class="col-md-6 text-center mb-3">
+        <canvas id="tyreUse" class="w-100"></canvas>
+      </div>
+      <div class="col-md-6 text-center mb-3">
+        <canvas id="tyreGrip" class="w-100"></canvas>
+      </div>
+    </div>
+
+    <div id="dataDiv" class="row shadow-lg p-3 mt-3 mb-5 bg-white rounded d-none conten-div">
+      <div class="col-md-6 text-center mt-2 my-auto">
+        <div class="dataBg p-5 rounded">
+          <div class="row justify-content-center mt-3 mb-3">
+            <div class="d-flex align-items-center">
+              <span class="font-weight-bold">Duración media</span>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <h3 class="display-4 durationText">0 km</h3>
+          </div>
+          <div class="row justify-content-center mt-3 mb-3">
+            <span class="font-weight-bold">Valoración general</span>
+          </div>
+          <div class="row justify-content-center">
+            <i id="rating1" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="rating2" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="rating3" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="rating4" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="rating5" class="fa fa-star fa-2x" aria-hidden="true"></i>
+          </div>
+          <div class="row justify-content-center mt-3 mb-3">
+            <span class="font-weight-bold">Precio medio de la pareja</span>
+          </div>
+          <div class="row justify-content-center">
+            <h3 class="display-4 avgCostText">0 €</h3>
+          </div>
+          <div class="row justify-content-center mt-3 mb-3">
+            <span class="font-weight-bold">Valoración calidad-precio</span>
+          </div>
+          <div class="row justify-content-center mb-2">
+            <i id="costvalue1" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="costvalue2" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="costvalue3" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="costvalue4" class="fa fa-star fa-2x mr-2" aria-hidden="true"></i>
+            <i id="costvalue5" class="fa fa-star fa-2x" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 text-center mt-2 mb-3">
+        <div>
+          <canvas id="tyreBreak" class="w-100"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer" class="container d-flex justify-content-center">
+    <div class="row">
+      <div class="col-12">
+        <ul class="social-icons">
+          <li><a class="linkedin" href="https://www.linkedin.com/in/pablo-reyes-pausa/"
+              target="_blank"><i class="fa fa-linkedin"></i></a></li>
+          <li><a class="github" href="https://github.com/pabrep" target="_blank"><i class="fa fa-github"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    //Populate input with tyre models
+    var modelNames = JSON.parse(<?= JSON.stringify(getDataFromSheet("tyreModels")); ?>);
+     $(document).ready(function () {
+         var listItems = '<option selected="selected" value="0">- Modelo -</option>';
+ 
+      for (var i = 0; i < modelNames.length; i++) {
+             listItems += "<option value='" + modelNames[i] + "'>" + modelNames[i] + "</option>";
+         }
+ 
+         $("#selectModels").html(listItems);
+     })
+
+    // Charts
+    let myTyreUseChart;
+    let myTyreGripChart;
+    let myTyreBreakChart;
+
+
+    // Function when tyre slected
+    $("#selectModels").change(function(){
+      
+      // Set html elements in "loading mode", not so elegant
+      const loading = "Cargando ..."
+      $('#totalRatings').text(loading);
+      $('#tyreType').text(loading);
+      $('#tyreTypeInfo').text(loading);
+      $('.durationText').text(loading);
+      if (myTyreUseChart != undefined || myTyreUseChart != null) {
+        myTyreUseChart.data.datasets[0].data = [];
+        myTyreUseChart.update();
+      }
+      if (myTyreGripChart != undefined || myTyreGripChart != null) {
+        myTyreGripChart.data.datasets[0].data = [];
+        myTyreGripChart.update();
+      }
+      if (myTyreBreakChart != undefined || myTyreBreakChart != null) {
+        myTyreBreakChart.data.datasets[0].data = [];
+        myTyreBreakChart.update();
+      }
+      for(var iRating = 1; iRating < (6); iRating++){
+        var starRatingClass = "#rating" + iRating
+        $(starRatingClass).removeClass("fa-star-gold");
+      }
+      for(var iCostval = 1; iCostval < (6); iCostval++){
+        var starRatingClass = "#costvalue" + iCostval
+        $(starRatingClass).removeClass("fa-star-gold");
+      }
+
+      // Get name of slected tyre
+      var model_selected = $("#selectModels").val();
+
+      // Common chart configuration
+      const chartOptions = {
+        responsive: true,
+        scales: {
+          r: {
+              angleLines: {
+                  display: false
+              },
+              suggestedMin: 0,
+              suggestedMax: 5,
+              ticks: {
+                stepSize: 1,
+                fontColor: '#FFFFFF',
+                showLabelBackdrop: false // hide square behind text
+              }
+            }
+        }
+      };
+
+      const chartOptionsRadar = {
+        responsive: true,
+        scales: {
+          r: {
+              suggestedMin: 0,
+              suggestedMax: 5,
+              ticks: {
+                stepSize: 1,
+                fontColor: '#FFFFFF',
+                showLabelBackdrop: false // hide square behind text
+              }
+            }
+        }
+      };
+      
+      // Get and set total ratings
+      try {
+        google.script.run.withSuccessHandler( 
+          function(totalRatings) {
+            $('#totalRatings').text(totalRatings);
+          }
+        ).findTotalRatings(model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+      // Get and set tyre type
+      try {
+        google.script.run.withSuccessHandler( 
+          function(response) {
+            $('#tyreType').text(response[0]);
+            $('#tyreTypeInfo').text(response[1]);
+          }
+        ).findByNameType(model_selected, "tyreType");
+      }
+      catch(err) {
+        alert(err);
+      }
+      
+      // Tyre use chart function
+      try {
+        google.script.run.withSuccessHandler( 
+          function(tyreUse) {
+            // Use tyre chart
+            const labelsUse = ["Circuito", "Rutas", "Ciudad", "Autovía/Autopista", "Offroad"];
+            const dataTyreUse = {
+              labels: labelsUse,
+              datasets: [
+                {
+                  label: "Uso",
+                  data: tyreUse,
+                  borderColor: '#d50000',
+                  backgroundColor: 'rgba(214, 0, 0, 0.18)',
+                },
+              ]
+            };
+
+            if (myTyreUseChart != undefined || myTyreUseChart != null) {
+              myTyreUseChart.data.datasets[0].data = tyreUse;
+              myTyreUseChart.update();
+            }else{
+              var ctx = document.getElementById('tyreUse').getContext('2d');
+              myTyreUseChart = new Chart(ctx, {
+                type: 'radar',
+                data: dataTyreUse,
+                options: chartOptions
+              });
+            }
+          }
+        ).getDataFromSheet("tyreUse", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+      // Tyre grip chart function
+      try {
+        google.script.run.withSuccessHandler( 
+          function(tyreGrip) {
+            // Grip tyre chart
+            const labelsGrip = ["Seco", "Mojado", "Tierra", "Nieve"];
+            const dataTyreGrip = {
+              labels: labelsGrip,
+              datasets: [
+                {
+                  label: "Agarre",
+                  data: tyreGrip,
+                  borderColor: '#00c853',
+                  backgroundColor: 'rgba(0,200,83, 0.18)',
+                },
+              ]
+            };
+
+            if (myTyreGripChart != undefined || myTyreGripChart != null) {
+              myTyreGripChart.data.datasets[0].data = tyreGrip;
+              myTyreGripChart.update();
+            }else{
+              var ctx = document.getElementById('tyreGrip').getContext('2d');
+              myTyreGripChart = new Chart(ctx, {
+                type: 'radar',
+                data: dataTyreGrip,
+                options: chartOptions
+              });
+            }
+          }
+        ).getDataFromSheet("tyreGrip", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+      // Tyre grip chart function
+      try {
+        google.script.run.withSuccessHandler( 
+          function(tyreBreak) {
+            // Break tyre chart
+            const labelsBreak = ["Frenada seco", "Frenada mojado"];
+            const dataTyreBreak = {
+              labels: labelsBreak,
+              datasets: [
+                {
+                  label: "Frenada seco",
+                  data: tyreBreak,
+                  borderColor: [
+                    '#d50000',
+                    '#00c853'
+                  ],
+                  backgroundColor: [
+                    'rgba(214, 0, 0, 0.18)',
+                    'rgba(0,200,83, 0.18)',
+                  ]
+                },
+              ]
+            };
+
+            if (myTyreBreakChart != undefined || myTyreBreakChart != null) {
+              myTyreBreakChart.data.datasets[0].data[0] = tyreBreak[0];
+              myTyreBreakChart.data.datasets[0].data[1] = tyreBreak[1];
+              myTyreBreakChart.update();
+            }else{
+              var ctx = document.getElementById('tyreBreak').getContext('2d');
+              myTyreBreakChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: dataTyreBreak,
+                options: chartOptionsRadar
+              });
+            }
+          }
+        ).getDataFromSheet("tyreBreak", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+      // Tyre rating stars
+      try {
+        google.script.run.withSuccessHandler( 
+          function(tyreRating) {
+            for(var iRating = 1; iRating < (tyreRating + 1); iRating++){
+              var starRatingClass = "#rating" + iRating
+              $(starRatingClass).addClass("fa-star-gold");
+            }
+          }
+        ).getDataFromSheet("tyreRating", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+      // Tyre cost value stars
+      try {
+        google.script.run.withSuccessHandler( 
+          function(costVal) {
+            for(var iCostval = 1; iCostval < (costVal + 1); iCostval++){
+              var starRatingClass = "#costvalue" + iCostval
+              $(starRatingClass).addClass("fa-star-gold");
+            }
+          }
+        ).getDataFromSheet("tyreCostVal", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+      // Tyre average duration
+      try {
+        google.script.run.withSuccessHandler( 
+          function(tyreDuration) {
+            $('.durationText').text(tyreDuration + " km");
+          }
+        ).getDataFromSheet("tyreDuration", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+       // Get avg tyre price
+      try {
+        google.script.run.withSuccessHandler( 
+          function(avgPrice) {
+            $('.avgCostText').text(avgPrice + " €");
+          }
+        ).getDataFromSheet("tyreAvgPrice", model_selected);
+      }
+      catch(err) {
+        alert(err);
+      }
+
+
+      // Show divs when tyre model selected
+      $("#chartsDiv").removeClass("d-none");
+      $("#dataDiv").removeClass("d-none");
+      $('#intitialStatsDiv').removeClass("d-none");
+
+    });    
+    
+  </script>
+</body>
+
+</html>
